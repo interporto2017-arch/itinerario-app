@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Itinerario</title>
+
+    <!-- PWA -->
+    <link rel="manifest" href="manifest.json" />
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <div id="app">
+      <!-- LOGO (corretto) -->
+      <img src="icons/truck-192.png" id="logo" />
+
+      <h1>Itinerario</h1>
+
+      <div id="inputRow">
+        <input id="singleInput" type="text" placeholder="Inserisci indirizzo" />
+        <button id="addBtn" onclick="addSingle()">Aggiungi</button>
+        <button id="micBtn" onclick="startVoice()">🎤</button>
+      </div>
+      <button id="gpsBtn" onclick="useGPS()">
+        Usa la mia posizione attuale
+      </button>
+      <button id="optimizeBtn" onclick="optimize()">Ottimizza Percorso</button>
+
+      <h2>Risultato</h2>
+      <ol id="resultList"></ol>
+
+      <h2>Percorso</h2>
+      <div id="map"></div>
+    </div>
+
+    <!-- Google Maps -->
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBFTInAVhqEbcVULuGAUjtzPE8CGRn4pJQ&callback=initMap"
+      async
+      defer
+    ></script>
+
+    <!-- Codice -->
+    <script src="script.js"></script>
+    <!-- Service Worker -->
+    <script>
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("service-worker.js");
+      }
+    </script>
+  </body>
+</html>

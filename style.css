@@ -1,0 +1,151 @@
+/* Reset base */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #f2f2f2;
+}
+
+#app {
+  max-width: 900px;
+  margin: auto;
+  padding: 20px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Logo */
+#logo {
+  width: 160px;
+  display: block;
+  margin: -20px auto 10px auto;
+}
+
+h1 {
+  text-align: center;
+  color: #ffd400;
+  font-size: 70px;
+  font-weight: bold;
+  margin-top: -30px;
+  margin-bottom: 20px;
+}
+
+/* GPS button */
+#gpsBtn {
+  width: 100%;
+  margin-bottom: 20px;
+  background-color: #008800;
+}
+
+#gpsBtn:hover {
+  background-color: #006600;
+}
+
+/* Input row */
+#inputRow {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+input[type="text"] {
+  width: 92%;
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+button {
+  padding: 12px 15px;
+  font-size: 15px;
+  border: none;
+  border-radius: 6px;
+  background-color: #0077cc;
+  color: white;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #005fa3;
+}
+
+/* Microfono */
+#micBtn {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  font-size: 24px;
+  background-color: #1a73e8;
+  display: flex;
+  margin: 10px auto 0 auto;
+  align-items: center;
+  justify-content: center;
+}
+
+#micBtn.recording {
+  background-color: #d93025;
+}
+
+/* LISTA RISULTATI – NUMERI + CESTINI PERFETTI */
+ol#resultList {
+  font-size: 18px;
+  margin-bottom: 20px;
+  padding-left: 40px; /* spazio per la numerazione */
+  list-style: decimal;
+}
+
+ol#resultList li {
+  margin-bottom: 10px;
+}
+
+/* Riga interna: testo + cestino allineati */
+.listRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Testo dell'indirizzo */
+.listRow span {
+  flex: 1;
+  word-break: break-word;
+}
+
+/* Pulsante cestino */
+.delBtn {
+  background: transparent;
+  color: #cc0000;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.delBtn:hover {
+  color: #ff0000;
+}
+
+/* Map */
+#map {
+  width: 100%;
+  height: 450px;
+  background: #ddd;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+/* Truck icon */
+#truckArea {
+  text-align: center;
+  margin-top: 20px;
+}
+
+#truckIcon {
+  width: 120px;
+  opacity: 0.9;
+}
