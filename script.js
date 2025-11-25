@@ -5,6 +5,7 @@ const API_KEY = "AIzaSyDFCaVFjvR-RVjdtIWU2wn96E-v8UuGzMc";
 
 let indirizzi = [];
 let map, directionsService, directionsRenderer;
+let userLocation = null;
 
 // -------------------------
 // GOOGLE MAPS INIT
@@ -16,7 +17,6 @@ function initMap() {
     zoom: 12,
     center: { lat: 41.9028, lng: 12.4964 },
 
-    // 🔥 RIMETTIAMO TUTTI I CONTROLLI
     zoomControl: true,
     zoomControlOptions: {
       position: google.maps.ControlPosition.RIGHT_CENTER,
@@ -38,7 +38,6 @@ function initMap() {
       position: google.maps.ControlPosition.RIGHT_TOP,
     },
 
-    // 🔧 Disabilitiamo lo zoom doppio TAP SOLO SU MOBILE
     disableDoubleClickZoom: isMobile,
   });
 
@@ -76,7 +75,7 @@ function renderList() {
 
     const delBtn = document.createElement("button");
     delBtn.className = "delBtn";
-    delBtn.innerHTML = "🗑️"; // <-- cestino
+    delBtn.innerHTML = "🗑️";
 
     delBtn.onclick = () => {
       indirizzi.splice(index, 1);
@@ -100,16 +99,18 @@ window.useGPS = function () {
 
   navigator.geolocation.getCurrentPosition(
     (pos) => {
-      const lat = pos.coords.latitude;
-      const lng = pos.coords.longitude;
+      userLocation = {
+        lat: pos.coords.latitude,
+        lng: pos.coords.longitude,
+      };
 
       // CENTRA LA MAPPA
-      map.setCenter({ lat, lng });
+      map.setCenter(userLocation);
       map.setZoom(15);
 
       // AGGIUNGE IL PALLINO BLU
       new google.maps.Marker({
-        position: { lat, lng },
+        position: userLocation,
         map: map,
         icon: {
           path: google.maps.SymbolPath.CIRCLE,
@@ -121,9 +122,8 @@ window.useGPS = function () {
         },
       });
 
-      alert("Posizione trovata!");
+      alert("Posizione registrata. Verrà usata come punto di partenza.");
     },
-
     (err) => {
       alert("Errore GPS: " + err.message);
     }
@@ -139,7 +139,11 @@ window.optimize = function () {
     return;
   }
 
-  const start = indirizzi[0];
+  // SE c'è la posizione GPS → parte da lì
+  // ALTRIMENTI → parte dal primo indirizzo
+  const start = userLocation
+    ? `${userLocation.lat},${userLocation.lng}`
+    : indirizzi[0];
   const end = indirizzi[indirizzi.length - 1];
 
   const waypoints = indirizzi.slice(1, -1).map((addr) => ({
@@ -157,7 +161,6 @@ window.optimize = function () {
     },
     (result, status) => {
       if (status === "OK") {
-        // reset renderer
         directionsRenderer.setMap(null);
         directionsRenderer = new google.maps.DirectionsRenderer({
           map: map,
@@ -185,9 +188,13 @@ window.optimize = function () {
           }
         });
 
-        // RIORDINA LISTA
+        // RIORDINA LISTA — NON INSERIRE LA POSIZIONE GPS
         const order = result.routes[0].waypoint_order;
-        const finalOrder = [start];
+        let finalOrder = [];
+
+        if (!userLocation) {
+          finalOrder.push(start);
+        }
 
         order.forEach((i) => finalOrder.push(indirizzi[i + 1]));
         finalOrder.push(end);
